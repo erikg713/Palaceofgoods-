@@ -34,3 +34,8 @@ palace-of-goods/
 ├── package.json
 └── node_modules/
 ---
+
+---
+# Docker #
+docker build -t palace-of-goods .
+docker run -p 3000:3000 palace-of-goods
