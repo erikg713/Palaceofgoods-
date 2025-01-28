@@ -14,6 +14,7 @@ npm install jwt-decode bcryptjs
 npm install -D @types/jwt-decode
 backend dependencies 
 npm install nodemailer
+npm install react-toastify
 ---
 # File Structure #
 ---
