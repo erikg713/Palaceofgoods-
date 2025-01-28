@@ -12,7 +12,14 @@ const Chat: React.FC<{ roomId: string; userId: string }> = ({ roomId, userId }) 
       setMessages((prevMessages) => [...prevMessages, data]);
     });
   }, [roomId]);
+const [typing, setTyping] = useState<string | null>(null);
 
+useEffect(() => {
+  socket.on("showTyping", ({ sender }) => {
+    setTyping(`${sender} is typing...`);
+    setTimeout(() => setTyping(null), 2000);
+  });
+}, []);
   const handleSend = () => {
     if (newMessage.trim()) {
       sendMessage(roomId, newMessage, userId);
