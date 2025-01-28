@@ -1,3 +1,9 @@
+import { trackEvent } from "../utils/analytics";
+
+const handleViewDetails = () => {
+  trackEvent("Product", "View Details", product.name);
+};
+
 import React from "react";
 
 interface Product {
