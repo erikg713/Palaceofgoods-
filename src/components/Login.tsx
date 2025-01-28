@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { useAuthStore } from "../state/authStore";
+import React, { useState } from 'react';
+import { login } from '../utils/api';
+import useAuthStore from '../state/authStore';
 
 const Login: React.FC = () => {
-  const { login } = useAuthStore();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login: storeLogin } = useAuthStore();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Fake auth request (replace with real API call)
-      const token = "secureToken"; 
-      login(token, email);
-      alert("Logged in successfully!");
-    } catch (error) {
-      console.error(error);
+      const { token, user, role } = await login(email, password);
+      storeLogin(token, user, role);
+      alert('Login successful!');
+    } catch (err) {
+      console.error(err);
+      alert('Login failed');
     }
   };
 
