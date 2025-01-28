@@ -1,5 +1,8 @@
 # Palaceofgoods-
+
+---
 Web3-based marketplace application built on Pi Network’s blockchain 
+---
 
 mkdir palace-of-goods && cd palace-of-goods
 npm init -y
@@ -9,6 +12,11 @@ npm install axios zustand classnames
 npm install pi-sdk
 npm install jwt-decode bcryptjs
 npm install -D @types/jwt-decode
+backend dependencies 
+npm install nodemailer
+---
+# File Structure #
+---
 palace-of-goods/
 ├── public/
 │   └── index.html
@@ -24,3 +32,4 @@ palace-of-goods/
 ├── tsconfig.json
 ├── package.json
 └── node_modules/
+---
