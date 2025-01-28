@@ -15,6 +15,7 @@ npm install -D @types/jwt-decode
 backend dependencies 
 npm install nodemailer
 npm install react-toastify
+npm install socket.io express
 ---
 # File Structure #
 ---
