@@ -20,3 +20,21 @@ const PiPaymentButton: React.FC<{ amount: number }> = ({ amount }) => {
 };
 
 export default PiPaymentButton;
+import React from 'react';
+import { Button } from '@mui/material';
+
+const PiPaymentButton: React.FC<{ amount: number; onSuccess: () => void }> = ({ amount, onSuccess }) => {
+  const handlePayment = () => {
+    // Call Pi SDK or payment endpoint
+    console.log(`Initiating payment of ${amount} Pi`);
+    onSuccess();
+  };
+
+  return (
+    <Button variant="contained" color="primary" onClick={handlePayment}>
+      Pay {amount} Pi
+    </Button>
+  );
+};
+
+export default PiPaymentButton;
