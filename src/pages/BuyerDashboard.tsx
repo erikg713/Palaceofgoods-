@@ -1,29 +1,11 @@
-import React from "react";
-import Chat from "../components/Chat";
+import React, { useEffect, useState } from 'react';
+import { getProducts } from '../utils/api';
+import ProductCard from '../components/ProductCard';
 
 const BuyerDashboard: React.FC = () => {
-  const roomId = "buyer-seller-123"; // Example room ID
-  const userId = "buyer-1"; // Replace with authenticated user ID
+  const [products, setProducts] = useState([]);
 
-  return (
-    <div>
-      <h1>Buyer Dashboard</h1>
-      <Chat roomId={roomId} userId={userId} />
-    </div>
-  );
-};
-
-export default BuyerDashboard;
-
-
-import React from "react";
-import ProductCard from "../components/ProductCard";
-import { getProducts } from "../services/productService";
-
-const BuyerDashboard: React.FC = () => {
-  const [products, setProducts] = React.useState([]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       const data = await getProducts();
       setProducts(data);
