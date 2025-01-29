@@ -35,7 +35,31 @@ palace-of-goods/
 ├── package.json
 └── node_modules/
 ---
-
+"scripts": {
+  "build": "swc src -d dist --source-maps true"
+}
+npm install -D @swc/core @swc/cli
+palace-of-goods/.swcrc
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",     // Specifies that TypeScript syntax will be parsed.
+      "tsx": true,                // Enables support for JSX syntax used in React.
+      "decorators": false,        // Disables support for experimental decorators.
+      "dynamicImport": true       // Enables support for dynamic imports (`import()`).
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic"    // Uses the automatic JSX runtime (React 17+), removing the need to explicitly import React.
+      }
+    },
+    "target": "es2022"             // Outputs code compatible with ECMAScript 2022.
+  },
+  "module": {
+    "type": "es6",                // Outputs ES6 module syntax.
+    "strict": true                // Ensures strict module transformation rules.
+  }
+}
 ---
 # Docker #
 docker build -t palace-of-goods .
