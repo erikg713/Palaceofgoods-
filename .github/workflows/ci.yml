@@ -4,15 +4,51 @@ on:
   push:
     branches:
       - main
+  pull_request: # Run on PRs to ensure stability
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm install
-      - run: npm run build
-      - run: npm test
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci # Ensures clean installs without modifying package-lock.json
+
+      - name: Run Linter
+        run: npm run lint # Ensures code follows best practices
+
+      - name: Run Tests
+        run: npm test # Ensures code quality before build
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: dist # Upload built files for deployment pipeline
+
+      - name: Cleanup Unused Dependencies
+        run: npm prune --production # Reduces package size for production
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: dist
