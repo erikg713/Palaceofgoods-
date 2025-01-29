@@ -35,3 +35,38 @@ io.on("connection", (socket) => {
 server.listen(3001, () => {
   console.log("Backend server running on port 3001");
 });
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+
+const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: { origin: "http://localhost:3000" }, // Allow frontend access
+});
+
+app.use(cors());
+app.use(express.json());
+
+// WebSocket connection
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  // Listen for order status updates
+  socket.on("orderStatus", (data) => {
+    io.emit("orderUpdate", data); // Broadcast to all users
+  });
+
+  // Listen for admin announcements
+  socket.on("adminMessage", (message) => {
+    io.emit("newAdminMessage", message); // Notify all users
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+server.listen(3002, () => console.log("Notifications server running on port 3002"));
