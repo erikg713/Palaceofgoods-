@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api', // This will be proxied to http://localhost:3001/api
+  baseURL: '/api',
 });
 
 export const login = async (email: string, password: string) => {
@@ -11,11 +11,6 @@ export const login = async (email: string, password: string) => {
 
 export const getProducts = async () => {
   const response = await api.get('/products');
-  return response.data;
-};
-
-export const submitReview = async (productId: string, rating: number, comment: string) => {
-  const response = await api.post('/reviews', { productId, rating, comment });
   return response.data;
 };
 
