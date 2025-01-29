@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { joinRoom, sendMessage, onReceiveMessage } from "../services/socketService";
+import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:3002');
 
 const Chat: React.FC<{ roomId: string; userId: string }> = ({ roomId, userId }) => {
   const [messages, setMessages] = useState<{ sender: string; message: string }[]>([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    joinRoom(roomId);
+    socket.emit('joinRoom', { room: roomId });
 
-    onReceiveMessage((data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+    socket.on('receiveMessage', (data) => {
+      setMessages((prev) => [...prev, data]);
     });
-  }, [roomId]);
-const [typing, setTyping] = useState<string | null>(null);
 
-useEffect(() => {
-  socket.on("showTyping", ({ sender }) => {
-    setTyping(`${sender} is typing...`);
-    setTimeout(() => setTyping(null), 2000);
-  });
-}, []);
+    return () => {
+      socket.disconnect();
+    };
+  }, [roomId]);
+
   const handleSend = () => {
     if (newMessage.trim()) {
-      sendMessage(roomId, newMessage, userId);
+      socket.emit('sendMessage', { room: roomId, sender: userId, message: newMessage });
       setMessages((prev) => [...prev, { sender: userId, message: newMessage }]);
-      setNewMessage("");
+      setNewMessage('');
     }
   };
 
