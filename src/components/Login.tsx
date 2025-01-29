@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button, Box, Typography } from '@mui/material';
 import { login } from '../utils/api';
 import useAuthStore from '../state/authStore';
 
@@ -20,21 +21,34 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ maxWidth: 400, mx: 'auto', mt: 8, p: 3, boxShadow: 3, borderRadius: 2 }}
+    >
+      <Typography variant="h5" gutterBottom>
+        Login
+      </Typography>
+      <TextField
+        label="Email"
         type="email"
-        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <input
+      <TextField
+        label="Password"
         type="password"
-        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <button type="submit">Login</button>
-    </form>
+      <Button type="submit" variant="contained" color="primary" fullWidth>
+        Login
+      </Button>
+    </Box>
   );
 };
 
