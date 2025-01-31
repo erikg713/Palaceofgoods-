@@ -11,7 +11,10 @@ export const transactionController = {
       const { productId } = req.body;
       const buyerId = req.user.id;
 
-      const product = await Product.findById(productId).populate('seller');
+      if (typeof productId !== 'string' || !productId.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(400).json({ error: 'Invalid product ID' });
+      }
+      const product = await Product.findOne({ _id: { $eq: productId } }).populate('seller');
       if (!product) {
         return res.status(404).json({ error: 'Product not found' });
       }
