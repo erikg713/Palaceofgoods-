@@ -104,9 +104,17 @@ export const productController = {
         imageUrls = [...imageUrls, ...newImages.map(image => image.secure_url)];
       }
 
+      const allowedUpdates = ['title', 'description', 'price', 'category', 'condition'];
+      const updates = Object.keys(req.body).filter(key => allowedUpdates.includes(key));
+      const updateData: any = {};
+      updates.forEach(key => {
+        updateData[key] = req.body[key];
+      });
+      updateData.images = imageUrls;
+
       const updatedProduct = await Product.findByIdAndUpdate(
         id,
-        { ...req.body, images: imageUrls },
+        updateData,
         { new: true }
       ).populate('seller', 'username avatar');
 
