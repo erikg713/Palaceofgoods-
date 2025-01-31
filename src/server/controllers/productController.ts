@@ -108,13 +108,16 @@ export const productController = {
       const updates = Object.keys(req.body).filter(key => allowedUpdates.includes(key));
       const updateData: any = {};
       updates.forEach(key => {
-        updateData[key] = req.body[key];
+        if (typeof req.body[key] === 'string' || typeof req.body[key] === 'number') {
+          updateData[key] = req.body[key];
+        }
       });
       updateData.images = imageUrls;
 
+      const updateDataWithSet = { $set: updateData };
       const updatedProduct = await Product.findByIdAndUpdate(
         id,
-        updateData,
+        updateDataWithSet,
         { new: true }
       ).populate('seller', 'username avatar');
 
