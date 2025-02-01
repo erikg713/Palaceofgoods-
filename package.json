@@ -1,9 +1,14 @@
-socket.io{
+{
   "name": "palace-of-goods",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js"
+    "start": "tsc && node dist/server.js", // For running the TypeScript compiler and starting the server
+    "dev": "react-scripts start",          // For starting the development server
+    "build": "swc src -d dist --source-maps true", // For building the project with source maps
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",    // For linting the project files
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix", // For fixing linting errors
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,md}'" // For formatting the project files
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -12,15 +17,10 @@ socket.io{
   },
   "devDependencies": {
     "@types/express": "^4.17.0",
-    "@types/node": "^14.0.0"
+    "@types/node": "^14.0.0",
+    "react-scripts": "^4.0.3",  // Assuming you need this for your frontend development
+    "swc": "^1.2.112",  // Assuming you're using SWC for building the project
+    "eslint": "^7.32.0",
+    "prettier": "^2.3.2"
   }
-}
-
-"scripts": {
-  "dev": "react-scripts start",
-  "start": "node server.js",
-  "build": "swc src -d dist --source-maps true",
-  "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-  "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
-  "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,md}'"
 }
