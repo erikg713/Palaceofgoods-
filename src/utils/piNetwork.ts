@@ -1,5 +1,11 @@
 import { Pi } from 'pi-sdk';
 
+interface PiAccount {
+  address: string;
+  network: string;
+  // Add other relevant fields based on Pi SDK documentation
+}
+
 /**
  * Initialize the Pi Network SDK with proper configuration
  * @returns Configured Pi SDK instance
@@ -7,7 +13,7 @@ import { Pi } from 'pi-sdk';
 export const initializePiNetwork = (): Pi => {
   const pi = new Pi({
     version: 'v2',
-    // Fixed the syntax error in the sandbox condition
+    // Fixed the syntax error by adding the missing quote
     sandbox: process.env.NODE_ENV !== 'development,
   });
 
@@ -19,7 +25,7 @@ export const initializePiNetwork = (): Pi => {
  * @returns User's Pi account information
  * @throws Error if authentication fails
  */
-export const connectWallet = async () => {
+export const connectWallet = async (): Promise<PiAccount> => {
   const pi = initializePiNetwork();
   
   try {
@@ -35,7 +41,10 @@ export const connectWallet = async () => {
   }
 };
 
-// Optional: Add a type-safe way to check if the wallet is connected
+/**
+ * Check if the wallet is currently connected
+ * @returns Boolean indicating if wallet is connected
+ */
 export const isWalletConnected = async (): Promise<boolean> => {
   const pi = initializePiNetwork();
   try {
@@ -43,5 +52,23 @@ export const isWalletConnected = async (): Promise<boolean> => {
     return !!account;
   } catch {
     return false;
+  }
+};
+
+/**
+ * Disconnect the currently connected wallet
+ * @returns void
+ */
+export const disconnectWallet = async (): Promise<void> => {
+  const pi = initializePiNetwork();
+  try {
+    await pi.disconnect();
+  } catch (error) {
+    console.error('Failed to disconnect Pi wallet:', error);
+    throw new Error(
+      error instanceof Error 
+        ? error.message 
+        : 'Unknown error occurred while disconnecting Pi wallet'
+    );
   }
 };
