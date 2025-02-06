@@ -16,7 +16,7 @@
     "typescript": "^4.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.0",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
     "vite": "^4.0.0", // Vite for React development
     "swc": "^1.2.112", // SWC for backend build
