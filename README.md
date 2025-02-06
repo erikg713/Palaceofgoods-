@@ -83,3 +83,35 @@ CMD ["npm", "run", "dev"]
 docker build -t palace-of-goods .
 docker run -p 3000:3000 -d palace-of-goods
 ---
+palace-of-goods/
+├── public/
+│   └── index.html  (Main HTML entry point)
+├── src/
+│   ├── assets/        (Images, fonts, SVGs)
+│   ├── components/      (Reusable UI components)
+│   ├── context/         (React Context providers)
+│   ├── hooks/           (Custom React hooks)
+│   ├── pages/           (Page components: Home, Login, Marketplace, etc.)
+│   ├── routes/          (Routing configuration: AppRouter.tsx)
+│   ├── services/        (API calls using Axios)
+│   ├── state/           (Zustand store and related logic)
+│   ├── types/           (TypeScript definitions for components, data, etc.)
+│   ├── utils/           (Utility functions, formatters, helpers)
+│   ├── App.tsx           (Main application component)
+│   ├── index.tsx         (Entry point for rendering the app)
+│   └── styles/         (Global styles or setup for CSS-in-JS)
+├── backend/             (Express.js backend)
+│   ├── routes/          (API routes: auth.js, products.js, etc.)
+│   ├── models/          (Database models/schemas)
+│   ├── config/          (Configuration files for database, etc.)
+│   ├── middleware/      (Middleware for authentication, error handling)
+│   ├── utils/           (Backend utility functions)
+│   ├── app.js           (Main Express app file)
+│   └── server.js        (Entry point for the backend server)
+├── .swcrc               (SWC compiler config)
+├── tsconfig.json        (TypeScript configuration)
+├── package.json
+├── Dockerfile
+├── .dockerignore
+├── .gitignore
+└── README.md

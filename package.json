@@ -1,9 +1,9 @@
 {
   "name": "palace-of-goods",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
-    "start": "tsc && node dist/server.js", // For running TypeScript compiler and starting the server
+    "start": "tsc && node dist/server.ts", // For running TypeScript compiler and starting the server
     "dev": "vite", // Use Vite to start the React development server
     "build": "swc src -d dist --source-maps true", // For building the backend project
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'", // For linting the project files

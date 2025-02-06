@@ -1,9 +1,16 @@
+// src/components/Chat.tsx
+
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3002');
 
-const Chat: React.FC<{ roomId: string; userId: string }> = ({ roomId, userId }) => {
+interface ChatProps {
+  roomId: string;
+  userId: string;
+}
+
+const Chat: React.FC<ChatProps> = ({ roomId, userId }) => {
   const [messages, setMessages] = useState<{ sender: string; message: string }[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
