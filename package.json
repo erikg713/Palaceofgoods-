@@ -21,6 +21,6 @@
     "vite": "^4.0.0", // Vite for React development
     "swc": "^1.2.112", // SWC for backend build
     "eslint": "^7.32.0",
-    "prettier": "^2.3.2"
+    "prettier": "^3.4.2"
   }
 }
