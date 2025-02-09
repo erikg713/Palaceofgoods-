@@ -30,3 +30,13 @@ export const authService = {
     }  
   }  
 };  
+export const authService = {  
+  async logout(): Promise<void> {  
+    try {  
+      // Simulate API call  
+      await new Promise(resolve => setTimeout(resolve, 500));  
+    } catch (error) {  
+      throw new Error("Failed to log out");  
+    }  
+  },  
+};
