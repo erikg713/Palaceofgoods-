@@ -8,6 +8,39 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState('');  
   const [password, setPassword] = useState('');  
   const [error, setError] = useState<string | null>(null);  
+  const { user } = useStore();  
+  const navigate = useNavigate();  
+
+  if (user) {  
+    navigate('/profile'); // Redirect if already logged in  
+  }  
+
+  const handleLogin = async () => {  
+    try {  
+      const token = await authService.login(username, password);  
+      useStore.setState({ user: { username, token } });  
+      navigate('/profile');  
+    } catch (error) {  
+      setError("Invalid username or password");  
+    }  
+  };  
+
+  return (  
+    // ... (same as before)  
+  );  
+};  
+
+export default Login;
+import React, { useState } from 'react';  
+import { TextField, Button, Typography, Container } from '@mui/material';  
+import { useNavigate } from 'react-router-dom';  
+import { authService } from '../services/api';  
+import { useStore } from '../state/store';  
+
+const Login: React.FC = () => {  
+  const [username, setUsername] = useState('');  
+  const [password, setPassword] = useState('');  
+  const [error, setError] = useState<string | null>(null);  
   const { setUser } = useStore();  
   const navigate = useNavigate();  
 
