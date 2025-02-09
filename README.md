@@ -10,7 +10,7 @@ npm install react-toastify socket.io-client
 npm install -D @swc/core @swc/cli typescript @types/react @types/react-dom @types/react-router-dom
 npm install -D @types/jwt-decode @types/bcryptjs
 npm install express socket.io nodemailer dotenv cors helmet morgan
-my-app
+npm install --save-dev typescript @types/react @types/react-dom Palaceofgoods-
 ├── README.md
 ├── node_modules
 ├── package.json
