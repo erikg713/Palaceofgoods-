@@ -1,4 +1,31 @@
-// src/pages/ProductDetail.tsx
+import React from 'react';  
+import { useParams } from 'react-router-dom';  
+
+const products = [  
+  { id: 1, name: "Laptop", price: 999, image: "https://via.placeholder.com/150", description: "A powerful laptop for all your needs." },  
+  { id: 2, name: "Smartphone", price: 499, image: "https://via.placeholder.com/150", description: "A sleek smartphone with advanced features." },  
+  { id: 3, name: "Headphones", price: 199, image: "https://via.placeholder.com/150", description: "High-quality headphones for immersive sound." },  
+];  
+
+const ProductDetail: React.FC = () => {  
+  const { id } = useParams<{ id: string }>();  
+  const product = products.find((p) => p.id === parseInt(id || ''));  
+
+  if (!product) {  
+    return <div>Product not found</div>;  
+  }  
+
+  return (  
+    <div>  
+      <h2>{product.name}</h2>  
+      <img src={product.image} alt={product.name} />  
+      <p>${product.price}</p>  
+      <p>{product.description}</p>  
+    </div>  
+  );  
+};  
+
+export default ProductDetail;
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Product } from '../types';
