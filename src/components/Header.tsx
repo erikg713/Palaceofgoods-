@@ -1,5 +1,20 @@
 // src/components/Layout/Header.tsx
-import React from 'react';
+import React from 'react';  
+
+const Header: React.FC = () => {  
+  return (  
+    <header>  
+      <h1>Palace of Goods</h1>  
+      <nav>  
+        <a href="/">Home</a>  
+        <a href="/about">About</a>  
+        <a href="/products">Products</a>  
+      </nav>  
+    </header>  
+  );  
+};  
+
+export default Header;import React from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../state/store';
 
