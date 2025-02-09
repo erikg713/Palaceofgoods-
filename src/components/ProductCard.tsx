@@ -1,4 +1,3 @@
-// src/components/ProductCard.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
@@ -27,5 +26,3 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </Link>
       </div>
     </div>
-  );
-};
