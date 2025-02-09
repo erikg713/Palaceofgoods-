@@ -3,80 +3,130 @@ import { TextField, Button, Typography, Container, Alert, CircularProgress } fro
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
 import { useStore } from '../state/store';
+import React, { useState } from 'react';  
+import {  
+  TextField,  
+  Button,  
+  Typography,  
+  Container,  
+  Alert,  
+  CircularProgress,  
+  InputAdornment,  
+  IconButton,  
+} from '@mui/material';  
+import { Visibility, VisibilityOff } from '@mui/icons-material'; // Icons for password toggle  
+import { useNavigate } from 'react-router-dom';  
+import { authService } from '../services/api';  
+import { useStore } from '../state/store';  
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false); // Add loading state
-  const { setUser, user } = useStore();
-  const navigate = useNavigate();
+const Login: React.FC = () => {  
+  const [username, setUsername] = useState('');  
+  const [password, setPassword] = useState('');  
+  const [error, setError] = useState<string | null>(null);  
+  const [loading, setLoading] = useState(false);  
+  const [showPassword, setShowPassword] = useState(false); // Password visibility state  
+  const { setUser, user } = useStore();  
+  const navigate = useNavigate();  
 
-  if (user) {
-    navigate('/profile'); // Redirect if already logged in
-    return null; // Return null to prevent further rendering
-  }
+  // Redirect if already logged in  
+  if (user) {  
+    navigate('/profile');  
+    return null;  
+  }  
 
-  const handleLogin = async () => {
-    setLoading(true); // Set loading to true
-    setError(null); // Clear previous errors
+  const handleLogin = async () => {  
+    // Client-side validation  
+    if (!username || !password) {  
+      setError('Please fill in all fields.');  
+      return;  
+    }  
 
-    try {
-      const token = await authService.login(username, password);
-      setUser({ username, token });
-      navigate('/profile');
-    } catch (error: any) { // Type the error
-      console.error("Login Error:", error); // Log the error for debugging
-      setError(error.message || "Invalid username or password"); // More specific error
-    } finally {
-      setLoading(false); // Set loading to false
-    }
-  };
+    setLoading(true);  
+    setError(null);  
 
-  return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Login
-      </Typography>
-      {error && <Alert severity="error">{error}</Alert>} {/* Display error message */}
-      <TextField
-        label="Username"
-        fullWidth
-        margin="normal"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required // Add required attribute
-      />
-      <TextField
-        label="Password"
-        fullWidth
-        margin="normal"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required // Add required attribute
-      />
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        onClick={handleLogin}
-        sx={{ mt: 2 }}
-        disabled={loading} // Disable button while loading
-      >
-        {loading ? <CircularProgress size={20} color="white" /> : 'Log In'} {/* Loading indicator */}
-      </Button>
-      <Button
-        fullWidth
-        variant="text"
-        color="primary"
-        onClick={() => navigate('/register')}
-        sx={{ mt: 1 }}
-      >
-        Don't have an account? Register
-      </Button>
-    </Container>
-  );
-};
+    try {  
+      const token = await authService.login(username, password);  
+      setUser({ username, token });  
+      navigate('/profile');  
+    } catch (error: any) {  
+      console.error('Login Error:', error);  
+      setError(  
+        error.response?.data?.message || 'Invalid username or password. Please try again.'  
+      );  
+    } finally {  
+      setLoading(false);  
+    }  
+  };  
 
-export default Login;
+  const handleTogglePasswordVisibility = () => {  
+    setShowPassword(!showPassword);  
+  };  
+
+  return (  
+    <Container maxWidth="sm" sx={{ mt: 4 }}>  
+      <Typography variant="h4" gutterBottom align="center">  
+        Login  
+      </Typography>  
+      {error && (  
+        <Alert severity="error" sx={{ mb: 2 }}>  
+          {error}  
+        </Alert>  
+      )}  
+      <TextField  
+        label="Username"  
+        fullWidth  
+        margin="normal"  
+        value={username}  
+        onChange={(e) => setUsername(e.target.value)}  
+        required  
+        autoComplete="username"  
+        inputProps={{ 'aria-label': 'Username' }}  
+      />  
+      <TextField  
+        label="Password"  
+        fullWidth  
+        margin="normal"  
+        type={showPassword ? 'text' : 'password'}  
+        value={password}  
+        onChange={(e) => setPassword(e.target.value)}  
+        required  
+        autoComplete="current-password"  
+        inputProps={{ 'aria-label': 'Password' }}  
+        InputProps={{  
+          endAdornment: (  
+            <InputAdornment position="end">  
+              <IconButton  
+                aria-label="toggle password visibility"  
+                onClick={handleTogglePasswordVisibility}  
+                edge="end"  
+              >  
+                {showPassword ? <VisibilityOff /> : <Visibility />}  
+              </IconButton>  
+            </InputAdornment>  
+          ),  
+        }}  
+      />  
+      <Button  
+        fullWidth  
+        variant="contained"  
+        color="primary"  
+        onClick={handleLogin}  
+        sx={{ mt: 2 }}  
+        disabled={loading}  
+      >  
+        {loading ? <CircularProgress size={20} color="inherit" /> : 'Log In'}  
+      </Button>  
+      <Button  
+        fullWidth  
+        variant="text"  
+        color="primary"  
+        onClick={() => navigate('/register')}  
+        sx={{ mt: 1 }}  
+      >  
+        Don't have an account? Register  
+      </Button>  
+    </Container>  
+  );  
+};  
+
+export default Login;  
