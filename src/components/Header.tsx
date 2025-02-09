@@ -1,35 +1,58 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useStore } from '../../state/store'; // Make sure the path is correct
+import React from 'react';  
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';  
+import { Link, useNavigate } from 'react-router-dom';  
+import { useStore } from '../state/store';  
 
-const Header: React.FC = () => {
-  const { user } = useStore();
+const Header: React.FC = () => {  
+  const { user, logout } = useStore(); // Add logout function to Zustand store  
+  const navigate = useNavigate();  
 
-  return (
-    <header className="bg-white shadow-md"> {/* Tailwind classes */}
-      <nav className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-gray-800">Palace of Goods</Link> {/* Added text color */}
-        <div className="flex items-center gap-4">
-          <Link to="/marketplace" className="hover:text-blue-600">Marketplace</Link>
-          {user ? (
-            <>
-              <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
-              <Link to="/profile" className="flex items-center gap-2 hover:text-blue-600"> {/* Added hover effect */}
-                <img
-                  src={user.avatar || '/default-avatar.png'}
-                  alt={user.username ? `${user.username}'s profile` : "Profile"} // Improved alt text
-                  className="w-8 h-8 rounded-full"
-                />
-                <span>{user.username}</span>
-              </Link>
-            </>
-          ) : (
-            <Link to="/login" className="btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> {/* Improved button styling */}
-              Connect Wallet
-            </Link>
-          )}
-        </div>
-      </nav>
-    </header>
-  );
-};
+  const handleLogout = () => {  
+    logout(); // Call logout function  
+    navigate('/login'); // Redirect to login page  
+  };  
+
+  return (  
+    <AppBar position="static">  
+      <Toolbar>  
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>  
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>  
+            Palace of Goods  
+          </Link>  
+        </Typography>  
+        <Box>  
+          <Button color="inherit" component={Link} to="/">  
+            Home  
+          </Button>  
+          <Button color="inherit" component={Link} to="/products">  
+            Products  
+          </Button>  
+          <Button color="inherit" component={Link} to="/cart">  
+            Cart  
+          </Button>  
+          {user ? (  
+            <>  
+              <Button color="inherit" component={Link} to="/profile">  
+                Profile  
+              </Button>  
+              <Button color="inherit" onClick={handleLogout}>  
+                Logout  
+              </Button>  
+            </>  
+          ) : (  
+            <>  
+              <Button color="inherit" component={Link} to="/login">  
+                Login  
+              </Button>  
+              <Button color="inherit" component={Link} to="/register">  
+                Register  
+              </Button>  
+            </>  
+          )}  
+        </Box>  
+      </Toolbar>  
+    </AppBar>  
+  );  
+};  
+
+export default Header; 
