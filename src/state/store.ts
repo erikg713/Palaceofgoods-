@@ -1,3 +1,52 @@
+import React, { createContext, useContext, useState } from 'react';  
+
+interface User {  
+  username: string;  
+  token: string;  
+}  
+
+interface CartItem {  
+  id: string;  
+  title: string;  
+  price: number;  
+}  
+
+interface StoreContextType {  
+  user: User | null;  
+  setUser: (user: User | null) => void;  
+  cart: CartItem[];  
+  addToCart: (item: CartItem) => void;  
+  removeFromCart: (id: string) => void;  
+}  
+
+const StoreContext = createContext<StoreContextType | undefined>(undefined);  
+
+export const StoreProvider: React.FC = ({ children }) => {  
+  const [user, setUser] = useState<User | null>(null);  
+  const [cart, setCart] = useState<CartItem[]>([]);  
+
+  const addToCart = (item: CartItem) => {  
+    setCart([...cart, item]);  
+  };  
+
+  const removeFromCart = (id: string) => {  
+    setCart(cart.filter((item) => item.id !== id));  
+  };  
+
+  return (  
+    <StoreContext.Provider value={{ user, setUser, cart, addToCart, removeFromCart }}>  
+      {children}  
+    </StoreContext.Provider>  
+  );  
+};  
+
+export const useStore = () => {  
+  const context = useContext(StoreContext);  
+  if (!context) {  
+    throw new Error("useStore must be used within a StoreProvider");  
+  }  
+  return context;  
+};
 import create from 'zustand';
 import { persist } from 'zustand/middleware'; // Import persist middleware
 import { User, Product } from '../types';
