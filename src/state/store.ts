@@ -58,3 +58,34 @@ export const useStore = create<AppState>()(
     }
   )
 );
+
+import create from 'zustand';  
+
+interface User {  
+  username: string;  
+  token: string;  
+}  
+
+interface StoreState {  
+  user: User | null;  
+  login: (username: string, token: string) => void;  
+  logout: () => void;  
+  cart: CartItem[];  
+  addToCart: (item: CartItem) => void;  
+  removeFromCart: (id: string) => void;  
+}  
+
+interface CartItem {  
+  id: string;  
+  title: string;  
+  price: number;  
+}  
+
+export const useStore = create<StoreState>((set) => ({  
+  user: null,  
+  login: (username, token) => set({ user: { username, token } }),  
+  logout: () => set({ user: null }),  
+  cart: [],  
+  addToCart: (item) => set((state) => ({ cart: [...state.cart, item] })),  
+  removeFromCart: (id) => set((state) => ({ cart: state.cart.filter((item) => item.id !== id) })),  
+}));
