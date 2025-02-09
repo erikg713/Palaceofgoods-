@@ -1,5 +1,13 @@
-// src/state/store.ts
-import create from 'zustand';
+import { useState } from 'react';  
+
+export const useStore = () => {  
+  const [user, setUser] = useState<string | null>(null);  
+  
+  return {  
+    user,  
+    setUser  
+  };  
+};  import create from 'zustand';
 import { User, Product } from '../types';
 
 interface AppState {
