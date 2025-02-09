@@ -1,3 +1,19 @@
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
+
+// ... (interfaces and store creation)
+
+export const useStore = create<AppState>()(
+  persist(
+    (set) => ({
+      // ... (state and actions)
+    }),
+    {
+      name: 'palace-of-goods-storage',
+      // ... (persistence configuration)
+    }
+  )
+);
 import React, { createContext, useContext, useState } from 'react';  
 
 interface User {  
