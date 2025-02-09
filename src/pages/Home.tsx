@@ -1,4 +1,16 @@
-// src/pages/Home.tsx
+import React from 'react';  
+
+const Home: React.FC = () => {  
+  return (  
+    <div>  
+      <h2>Welcome to Palace of Goods</h2>  
+      <p>Your one-stop shop for everything you need!</p>  
+    </div>  
+  );  
+};  
+
+export default Home;
+
 import React, { useEffect } from 'react';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../state/store';
