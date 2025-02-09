@@ -20,3 +20,13 @@ export const productService = {
       throw new Error("Failed to fetch product");  
     }  
   },  
+
+   async updateProduct(id: string, updates: Partial<Product>): Promise<void> {  
+    try {  
+      // Simulate API call  
+      await new Promise(resolve => setTimeout(resolve, 500));  
+    } catch (error) {  
+      throw new Error("Failed to update product");  
+    }  
+  }  
+};  
