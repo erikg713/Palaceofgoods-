@@ -15,6 +15,9 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import productRoutes from "./routes/products";
+import paymentRoutes from "./routes/payments";
+
+app.use("/api/payments", paymentRoutes);
 
 dotenv.config();
 
