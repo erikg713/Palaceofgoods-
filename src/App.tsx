@@ -1,43 +1,36 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import AdminPanel from "./pages/AdminPanel";
-import SellerDashboard from "./pages/SellerDashboard";
-import BuyerDashboard from "./pages/BuyerDashboard";
-import ProtectedRoute from "./utils/ProtectedRoute";
+import React from 'react';  
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';  
+import Home from './pages/Home';  
+import Login from './pages/Login';  
+import Register from './pages/Register';  
+import Profile from './pages/Profile';  
+import ProductList from './pages/ProductList';  
+import ProductDetail from './pages/ProductDetail';  
+import ShoppingCart from './components/ShoppingCart';  
+import Header from './components/Header';  
+import Footer from './components/Footer';  
+import NotFound from './pages/NotFound'; // Add a 404 page  
+import { useStore } from './state/store'; // Import Zustand store  
 
-const App: React.FC = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute role="admin">
-              <AdminPanel />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/seller"
-          element={
-            <ProtectedRoute role="seller">
-              <SellerDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/buyer"
-          element={
-            <ProtectedRoute role="buyer">
-              <BuyerDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
-  );
-};
+const App: React.FC = () => {  
+  const { user } = useStore(); // Access user from Zustand store  
 
-export default App;
+  return (  
+    <Router>  
+      <Header />  
+      <Routes>  
+        <Route path="/" element={<Home />} />  
+        <Route path="/login" element={user ? <Navigate to="/profile" /> : <Login />} />  
+        <Route path="/register" element={user ? <Navigate to="/profile" /> : <Register />} />  
+        <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} /> {/* Protected route */}  
+        <Route path="/products" element={<ProductList />} />  
+        <Route path="/products/:id" element={<ProductDetail />} />  
+        <Route path="/cart" element={<ShoppingCart />} />  
+        <Route path="*" element={<NotFound />} /> {/* 404 page */}  
+      </Routes>  
+      <Footer />  
+    </Router>  
+  );  
+};  
+
+export default App; 
