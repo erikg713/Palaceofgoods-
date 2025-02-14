@@ -31,3 +31,37 @@ router.post("/login", async (req, res) => {
 });
 
 export default router;
+import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { UserModel } from "../models/User";
+
+const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
+// Register User
+router.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  const existingUser = await UserModel.findByEmail(email);
+
+  if (existingUser) return res.status(400).json({ message: "Email already registered" });
+
+  const user = await UserModel.create({ username, email, password });
+  res.json(user);
+});
+
+// Login User
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await UserModel.findByEmail(email);
+
+  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+  const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+export default router;
