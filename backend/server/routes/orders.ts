@@ -44,3 +44,25 @@ router.put("/:id", (req, res) => {
 });
 
 export default router;
+import Pi from "pi-sdk";
+
+const pi = new Pi("YOUR_PI_APP_ID", "YOUR_PI_PRIVATE_KEY");
+
+// Initiate Pi Payment
+router.post("/pay", authenticateJWT, async (req, res) => {
+  try {
+    const { product_id, amount, buyer_username } = req.body;
+
+    // Create a payment request
+    const payment = await pi.createPayment({
+      amount,
+      memo: `Payment for product ID: ${product_id}`,
+      metadata: { product_id },
+      uid: buyer_username,
+    });
+
+    res.json(payment);
+  } catch (error) {
+    res.status(500).json({ message: "Payment initiation failed", error });
+  }
+});
