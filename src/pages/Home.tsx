@@ -1,33 +1,39 @@
-// src/pages/Home.tsx
-import React, { useEffect } from 'react';
-import { ProductCard } from '../components/ProductCard';
-import { useStore } from '../state/store';
-import { productService } from '../services/api';
+import React from 'react';  
+import { Container, Typography, Grid } from '@mui/material';  
+import ProductCard from '../components/ProductCard';  
+import { Product } from '../types';  
 
-export const Home: React.FC = () => {
-  const { products, setProducts } = useStore();
+const products: Product[] = [  
+  {  
+    id: "1",  
+    title: "Laptop",  
+    description: "Powerful laptop for all your needs",  
+    price: 999,  
+    images: ["https://via.placeholder.com/150"],  
+    status: "available",  
+    seller: "seller123",  
+    category: "electronics",  
+    createdAt: "2025-02-09"  
+  },  
+  {  
+    id: "2",  
+    title: "Smartphone",  
+    description: "Advanced smartphone with great camera",  
+    price: 499,  
+    images: ["https://via.placeholder.com/150"],  
+    status: "available",  
+    seller: "seller456",  
+    category: "electronics",  
+    createdAt: "2025-02-09"  
+  }  
+];  
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data = await productService.getProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error('Failed to load products:', error);
-      }
-    };
-
-    loadProducts();
-  }, [setProducts]);
-
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Marketplace</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
-  );
-};
+const Home: React.FC = () => {  
+  return (  
+    <Container maxWidth="md" sx={{ mt: 4 }}>  
+      <Typography variant="h3" gutterBottom>  
+        Welcome to Palace of Goods  
+      </Typography>  
+      <Grid container spacing={4}>  
+        {products.map((product) => (  
+          <Grid item key={product.id
