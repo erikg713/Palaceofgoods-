@@ -1,1 +1,27 @@
 
+{
+  "name": "palace-of-goods",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "scripts": {
+    "start": "tsc && node dist/server.ts", // For running TypeScript compiler and starting the server
+    "dev": "vite", // Use Vite to start the React development server
+    "build": "swc src -d dist --source-maps true", // For building the backend project
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'", // For linting the project files
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix", // For fixing linting errors
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,md}'" // For formatting the project files
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0",
+    "typescript": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.1",
+    "vite": "^4.0.0", // Vite for React development
+    "swc": "^1.2.112", // SWC for backend build
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2"
+  }
+}
